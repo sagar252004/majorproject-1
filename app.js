@@ -91,7 +91,7 @@ app.post("/listings",
 app.get("/listings/:id/edit", wrapAsync(async (req,res)=>{
     let {id} = req.params;
     const listing = await Listing.findById(id);
-    return res.render("listings/edit.ejs",{listing});
+     res.render("listings/edit.ejs",{listing});
 }));
 
 // update Route
@@ -100,7 +100,7 @@ app.put("/listings/:id",
     wrapAsync(async (req,res)=>{
     let {id} = req.params;
     const listing = await Listing.findByIdAndUpdate(id,{...req.body.listing});
-    return res.redirect(`/listings/${id}`);
+    res.redirect(`/listings/${id}`);
 }));
 
 // Delete Route
@@ -108,7 +108,7 @@ app.delete("/listings/:id", wrapAsync(async (req,res)=>{
     let {id} = req.params;
     const deletedListing = await Listing.findByIdAndDelete(id);
     // console.log(deletedListing);
-    return res.redirect("/listings");
+    res.redirect("/listings");
 }));
 
 // Reviews
