@@ -1,3 +1,8 @@
+if(process.env.NODE_ENV !="production"){
+    require('dotenv').config();
+}
+
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -13,8 +18,8 @@ const session = require("express-session");
 // const Review = require("./models/reviews.js");
 const flash = require("connect-flash");
 const passport = require("passport");
-const LocalStratergy = require("passport-local");
-const User = require("./models/user.js");
+const LocalStrategy = require("passport-local");
+const {User} = require("./models/user.js");
 
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
@@ -51,16 +56,21 @@ const sessionOption = {
 
 };
 
-app.get("/",(req,res)=>{
-    res.send("I'm root");
-});
+// app.get("/",(req,res)=>{
+//     res.send("I'm root");
+// });
 
 app.use(session(sessionOption));
 app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStratergy(User.authenticate()));
+// passport.use(new LocalStrategy(User.authenticate()));
+
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
+
+passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
